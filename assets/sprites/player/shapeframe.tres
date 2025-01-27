@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ShapeFrames2D" load_steps=2 format=3 uid="uid://diockkpiiar6a"]
+
+[ext_resource type="Script" path="res://addons/goutte.animated_shape_2d/shape_frames_2d.gd" id="1_f6iau"]
+
+[resource]
+script = ExtResource("1_f6iau")
+data = {}
