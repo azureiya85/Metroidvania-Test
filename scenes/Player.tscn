@@ -375,6 +375,8 @@ animations = [{
 size = Vector2(20, 73.25)
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 5
+scale = Vector2(0.690711, 0.709901)
 script = ExtResource("1_xdrri")
 
 [node name="AnimatedShape2D" type="Node" parent="." node_paths=PackedStringArray("animated_sprite", "collision_shape")]
@@ -386,10 +388,8 @@ shape_frames = ExtResource("3_bk05q")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(346, 185)
 sprite_frames = SubResource("SpriteFrames_33b7y")
-animation = &"sit"
+animation = &"idle"
 autoplay = "idle"
-frame = 9
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(352, 195)

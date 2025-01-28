@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 # Constants for movement
 const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -420.0
 
 # Animation states
 enum AnimationState { IDLE, RUN, JUMP, SIT, SIT_IDLE, ATTACK, HURT, DEATH }
@@ -124,3 +124,50 @@ func trigger_death() -> void:
 	is_dead = true
 	velocity = Vector2.ZERO  # Stop movement
 	play_animation("death")
+
+# Handles player health and death
+
+var max_health = 5
+var current_health = max_health
+var is_invincible = false
+var invincibility_duration = 1.0
+var invincibility_timer = 0.0
+
+func _process(delta):
+	if is_invincible:
+		invincibility_timer += delta
+		if invincibility_timer >= invincibility_duration:
+			is_invincible = false
+			invincibility_timer = 0.0
+
+func take_damage(damage, knockback_direction):
+	if !is_invincible:
+		current_health -= damage
+		if current_health <= 0:
+			is_dead = true
+		else:
+			knockback(knockback_direction)
+
+func heal(amount):
+	current_health = min(max_health, current_health + amount)
+
+func set_invincible(duration):
+	is_invincible = true
+	invincibility_duration = duration
+
+func knockback(direction):
+	var knockback_speed = 200
+	var knockback_time = 0.5
+	var velocity = direction.normalized() * knockback_speed
+	play_animation("hurt")
+	$CollisionShape2D.disabled = true
+	$Timer.wait_time = knockback_time
+	$Timer.start()
+	# Apply knockback velocity to the player or enemy
+	if has_node("CharacterBody2D"):
+		var character_body = get_node("CharacterBody2D")
+		character_body.kinematic_move(velocity)
+
+func _on_Timer_timeout():
+	play_animation("idle")
+	$CollisionShape2D.disabled = false
