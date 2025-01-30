@@ -4,7 +4,7 @@ extends CharacterBody2D
 const SPEED = 300.0  # Movement speed of the character
 const JUMP_VELOCITY = -420.0  # Velocity applied when the character jumps
 const KNOCKBACK_SPEED = 200.0  # Speed of the knockback effect when hurt
-const INVINCIBILITY_DURATION = 1.0  # Duration of invincibility after taking damage
+const INVINCIBILITY_DURATION = 0.5  # Duration of invincibility after taking damage
 
 # Animation states
 # Enum used to define various animation states for the character
@@ -135,13 +135,6 @@ func start_attack() -> void:
 	is_attacking = true
 	play_animation("attack")
 
-# Triggers the hurt animation and state
-func trigger_hurt() -> void:
-	if not is_invincible:
-		is_hurt = true
-		play_animation("hurt")
-		set_invincible(INVINCIBILITY_DURATION)
-
 # Triggers the death state and animation
 func trigger_death() -> void:
 	is_dead = true
@@ -150,21 +143,38 @@ func trigger_death() -> void:
 
 # Handles taking damage and applying knockback
 func take_damage(damage: int, knockback_direction: Vector2) -> void:
-	if not is_invincible:
-		current_health -= damage
-		if current_health <= 0:
-			trigger_death()
-		else:
-			knockback(knockback_direction)
+	if is_invincible:
+		return
+
+	current_health -= damage
+
+	if current_health <= 0:
+		trigger_death()
+		return
+
+	trigger_hurt(knockback_direction)
+
+# Triggers the knockback effect, hurt animation, and invincibility frames
+func trigger_hurt(knockback_direction: Vector2) -> void:
+	is_hurt = true
+	is_invincible = true
+	# Apply knockback
+	velocity = knockback_direction.normalized() * KNOCKBACK_SPEED
+	play_animation("hurt")
+	collision_shape.disabled = true
+	# Handle invincibility duration and re-enable collision
+	await get_tree().create_timer(0.3).timeout  # Adjust knockback duration as needed
+	collision_shape.disabled = false
+	velocity = Vector2.ZERO  # Stop knockback after the timer
+	play_animation("idle")
+	# Continue invincibility timer after collision reset
+	await get_tree().create_timer(INVINCIBILITY_DURATION).timeout
+	is_hurt = false
+	is_invincible = false
 
 # Heals the character by a specified amount
 func heal(amount: int) -> void:
 	current_health = min(max_health, current_health + amount)
-
-# Sets the character as invincible for a duration
-func set_invincible(duration: float) -> void:
-	is_invincible = true
-	invincibility_timer = 0.0
 
 # Updates the invincibility timer and disables invincibility if time is up
 func update_invincibility_timer(delta: float) -> void:
@@ -173,15 +183,6 @@ func update_invincibility_timer(delta: float) -> void:
 		if invincibility_timer >= INVINCIBILITY_DURATION:
 			is_invincible = false
 			invincibility_timer = 0.0
-
-# Applies knockback effect and plays hurt animation
-func knockback(direction: Vector2) -> void:
-	velocity = direction.normalized() * KNOCKBACK_SPEED
-	play_animation("hurt")
-	collision_shape.disabled = true  # Temporarily disable collision
-	await get_tree().create_timer(0.5).timeout
-	collision_shape.disabled = false
-	play_animation("idle")
 
 # Updates the direction of the slash attack area
 func update_slash_area_direction(direction: float) -> void:
