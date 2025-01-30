@@ -23,6 +23,8 @@ var is_dead = false  # Indicates if the character is dead
 var sit_idle_transitioned = false  # Tracks whether the sit-idle animation has started
 var is_invincible = false  # Indicates if the character is invincible after taking damage
 var invincibility_timer = 0.0  # Timer for tracking invincibility duration
+var facing_direction = 1  # Tracks the last facing direction, 1 for right, -1 for left
+
 
 # Health
 var max_health = 5  # Maximum health of the character
@@ -84,9 +86,10 @@ func handle_crouch() -> void:
 
 # Flips the sprite based on movement direction
 func handle_flip_sprite() -> void:
-	var direction = sign(velocity.x)
-	if direction != 0:
-		$CaelaSprite.flip_h = direction < 0
+	if velocity.x != 0:
+		facing_direction = sign(velocity.x)
+	$CaelaSprite.flip_h = facing_direction < 0
+
 
 # --- Animation Handling ---
 # Manages which animation to play based on the character state
@@ -107,6 +110,9 @@ func handle_animation() -> void:
 		play_animation("idle" if velocity.x == 0 else "run")
 	else:
 		play_animation("jump")
+
+# Maintain sprite flipping during non-movement states
+	handle_flip_sprite()
 
 # Manages sitting animations, including transition to sit-idle
 func handle_sitting_animation() -> void:
