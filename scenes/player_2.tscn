@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b3lq8nsg4lpyy"]
+[gd_scene load_steps=23 format=3 uid="uid://b3lq8nsg4lpyy"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_aqubb"]
 [ext_resource type="Texture2D" uid="uid://cklq5gri8hhnf" path="res://assets/sprites/player/FASE 1 IDLE SIMPLY.png" id="1_lc83l"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://brqfaa73ls28u" path="res://assets/sprites/player/FASE 1 DEATH.png" id="6_t8g47"]
 [ext_resource type="Texture2D" uid="uid://c6gergomynppa" path="res://assets/sprites/player/FASE 1 SITTING.png" id="7_j3iq5"]
 [ext_resource type="Texture2D" uid="uid://dd6j0yet57efq" path="res://assets/sprites/player/FASE 1 SITTING IDLE.png" id="8_t0vsk"]
+[ext_resource type="Script" path="res://scripts/components/HitBox.gd" id="10_c7ji0"]
 
 [sub_resource type="Animation" id="Animation_eh4xw"]
 length = 0.001
@@ -621,8 +622,10 @@ hframes = 4
 [node name="Camera2D" type="Camera2D" parent="CaelaSprite"]
 
 [node name="Area2D" type="Area2D" parent="CaelaSprite"]
+script = ExtResource("10_c7ji0")
 
 [node name="SlashArea" type="CollisionShape2D" parent="CaelaSprite/Area2D"]
+z_index = 5
 position = Vector2(25.25, -1)
 shape = SubResource("RectangleShape2D_xudt3")
 
@@ -631,3 +634,4 @@ position = Vector2(632, 230)
 shape = SubResource("RectangleShape2D_r16fs")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="area_entered" from="CaelaSprite/Area2D" to="." method="_on_area_2d_area_entered"]

@@ -93,6 +93,9 @@ func handle_flip_sprite() -> void:
 
 # --- Animation Handling ---
 # Manages which animation to play based on the character state
+# todo - add sound effects
+# todo - connect the hurt and death to an animation, but needs hitbox 
+# and hurtbox figured out
 func handle_animation() -> void:
 	if is_hurt:
 		play_animation("hurt")

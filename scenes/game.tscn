@@ -7,6 +7,7 @@
 [node name="Game" type="Node2D"]
 
 [node name="Caela" parent="." instance=ExtResource("1_nula2")]
+z_index = 5
 position = Vector2(-494, 337)
 
 [node name="World" parent="." instance=ExtResource("2_ax5s8")]
