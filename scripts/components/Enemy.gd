@@ -1,16 +1,12 @@
 extends CharacterBody2D
 
-var taking_damage = false
 
-func damage(attack: Attack):
-	health -= attack.attack_damage
-	
-	if health <= 0:
+func take_damage(amount: int) -> void:
+	print("take damage")
+	health = max(0, health - amount)
+	if health < 0:
 		queue_free()
-	
-	taking_damage = true
-	
-	velocity =(global_position - attack.attack_position).normalized()*attack.knockdown_force
+	pass
 	
 var health
 var max_health = 10

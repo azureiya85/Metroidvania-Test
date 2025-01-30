@@ -1,10 +1,12 @@
-[gd_scene load_steps=13 format=3 uid="uid://da7af7pqe1fya"]
+[gd_scene load_steps=15 format=3 uid="uid://da7af7pqe1fya"]
 
 [ext_resource type="Texture2D" uid="uid://bgj24usq7xa47" path="res://assets/sprites/enemy/Knight/_Idle.png" id="1_e0aal"]
+[ext_resource type="Script" path="res://scripts/components/Enemy.gd" id="1_rqbiv"]
 [ext_resource type="Texture2D" uid="uid://cuakcapual0es" path="res://assets/sprites/enemy/Knight/_Run.png" id="2_oboed"]
 [ext_resource type="Texture2D" uid="uid://c31xfl3w6hoja" path="res://assets/sprites/enemy/Knight/_Attack.png" id="3_08il8"]
 [ext_resource type="PackedScene" uid="uid://cddx2vmkrl5b1" path="res://scenes/health_comp.tscn" id="5_r2ca0"]
 [ext_resource type="PackedScene" uid="uid://c0tayra75yyel" path="res://scenes/hitbox_comp.tscn" id="6_1ycur"]
+[ext_resource type="Script" path="res://scripts/components/HurtBox.gd" id="7_b1sy5"]
 
 [sub_resource type="Animation" id="Animation_ax3sd"]
 length = 0.001
@@ -251,8 +253,9 @@ size = Vector2(25, 35)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rj68m"]
 size = Vector2(21.0051, 38.1943)
 
-[node name="Enemy" type="Node2D"]
+[node name="Enemy" type="CharacterBody2D"]
 scale = Vector2(1.54473, 1.54473)
+script = ExtResource("1_rqbiv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, 0)
@@ -274,9 +277,14 @@ shape = SubResource("RectangleShape2D_vdgd1")
 
 [node name="HealthComp" parent="." instance=ExtResource("5_r2ca0")]
 
-[node name="HitboxComp" parent="." instance=ExtResource("6_1ycur")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComp"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-5.32368, 21.0392)
 shape = SubResource("RectangleShape2D_rj68m")
 disabled = true
+
+[node name="HitboxComp" parent="." instance=ExtResource("6_1ycur")]
+script = ExtResource("7_b1sy5")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxComp"]
+position = Vector2(-5.1789, 20.7156)
+shape = SubResource("RectangleShape2D_rj68m")
