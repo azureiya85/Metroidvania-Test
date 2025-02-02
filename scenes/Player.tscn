@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://b6ynaqgx2ngb5"]
+[gd_scene load_steps=9 format=3 uid="uid://b6ynaqgx2ngb5"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_xdrri"]
 [ext_resource type="Texture2D" uid="uid://cklq5gri8hhnf" path="res://assets/sprites/player/FASE 1 IDLE SIMPLY.png" id="2_n7b1p"]
+[ext_resource type="PackedScene" uid="uid://c0tayra75yyel" path="res://scenes/hitbox_comp.tscn" id="3_70xpk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o5kw6"]
 atlas = ExtResource("2_n7b1p")
@@ -40,6 +41,7 @@ size = Vector2(20, 42.3989)
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 scale = Vector2(0.690711, 0.709901)
+collision_layer = 2
 script = ExtResource("1_xdrri")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -65,7 +67,7 @@ metadata/_aseprite_wizard_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "550ba085fc589dfde0079a53f13feca9"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2(347.468, 190.167)
 shape = SubResource("RectangleShape2D_1myjt")
 
@@ -74,5 +76,11 @@ shape = SubResource("RectangleShape2D_1myjt")
 [node name="AttackArea" type="CollisionShape2D" parent="WeaponSlash"]
 position = Vector2(370.633, 185.941)
 shape = SubResource("RectangleShape2D_qgr0o")
+
+[node name="HitboxComp" parent="." instance=ExtResource("3_70xpk")]
+
+[node name="HitDetect" type="CollisionShape2D" parent="HitboxComp"]
+position = Vector2(347.468, 190.167)
+shape = SubResource("RectangleShape2D_1myjt")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

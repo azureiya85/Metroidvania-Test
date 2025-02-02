@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b3lq8nsg4lpyy"]
+[gd_scene load_steps=24 format=3 uid="uid://b3lq8nsg4lpyy"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_aqubb"]
 [ext_resource type="Texture2D" uid="uid://cklq5gri8hhnf" path="res://assets/sprites/player/FASE 1 IDLE SIMPLY.png" id="1_lc83l"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://c6gergomynppa" path="res://assets/sprites/player/FASE 1 SITTING.png" id="7_j3iq5"]
 [ext_resource type="Texture2D" uid="uid://dd6j0yet57efq" path="res://assets/sprites/player/FASE 1 SITTING IDLE.png" id="8_t0vsk"]
 [ext_resource type="Script" path="res://scripts/components/HitBox.gd" id="10_c7ji0"]
+[ext_resource type="PackedScene" uid="uid://g4h37bf38k2c" path="res://scenes/hurt_box_component.tscn" id="11_rtm72"]
 
 [sub_resource type="Animation" id="Animation_eh4xw"]
 length = 0.001
@@ -64,7 +65,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../CollisionShape2D:disabled")
+tracks/4/path = NodePath("../Collision:disabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -76,7 +77,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Area2D/SlashArea:disabled")
+tracks/5/path = NodePath("PlayerHitDetect/SlashArea:disabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -152,7 +153,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Area2D/SlashArea:disabled")
+tracks/4/path = NodePath("PlayerHitDetect/SlashArea:disabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -216,7 +217,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("../CollisionShape2D:disabled")
+tracks/4/path = NodePath("../Collision:disabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -602,7 +603,7 @@ _data = {
 size = Vector2(29.5, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r16fs"]
-size = Vector2(13, 73)
+size = Vector2(22, 83.5)
 
 [node name="Caela" type="CharacterBody2D"]
 script = ExtResource("1_aqubb")
@@ -619,19 +620,23 @@ position = Vector2(634, 231)
 texture = ExtResource("1_lc83l")
 hframes = 4
 
-[node name="Camera2D" type="Camera2D" parent="CaelaSprite"]
-
-[node name="Area2D" type="Area2D" parent="CaelaSprite"]
+[node name="PlayerHitDetect" type="Area2D" parent="CaelaSprite"]
 script = ExtResource("10_c7ji0")
 
-[node name="SlashArea" type="CollisionShape2D" parent="CaelaSprite/Area2D"]
+[node name="SlashArea" type="CollisionShape2D" parent="CaelaSprite/PlayerHitDetect"]
 z_index = 5
 position = Vector2(25.25, -1)
 shape = SubResource("RectangleShape2D_xudt3")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(632, 230)
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(630, 241)
+shape = SubResource("RectangleShape2D_r16fs")
+
+[node name="HurtBox Component" parent="." instance=ExtResource("11_rtm72")]
+
+[node name="Collision2" type="CollisionShape2D" parent="HurtBox Component"]
+position = Vector2(630, 241)
 shape = SubResource("RectangleShape2D_r16fs")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="area_entered" from="CaelaSprite/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="CaelaSprite/PlayerHitDetect" to="." method="_on_area_2d_area_entered"]

@@ -6,5 +6,3 @@ extends Area2D
 func get_damage() -> int:
 	print("damage")
 	return damage 
-
-# hack - early implementation of hitbox and hurtbox system, still needs a ton of work

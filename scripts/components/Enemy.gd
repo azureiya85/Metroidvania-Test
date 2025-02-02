@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 
-func take_damage(amount: int) -> void:
+func take_damage(damage, knockback_direction) -> void:
 	print("take damage")
-	health = max(0, health - amount)
+	health = max(0, health - damage)
 	if health < 0:
 		queue_free()
 	pass
