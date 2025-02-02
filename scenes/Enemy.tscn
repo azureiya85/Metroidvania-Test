@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://da7af7pqe1fya"]
+[gd_scene load_steps=17 format=3 uid="uid://da7af7pqe1fya"]
 
 [ext_resource type="Texture2D" uid="uid://bgj24usq7xa47" path="res://assets/sprites/enemy/Knight/_Idle.png" id="1_e0aal"]
 [ext_resource type="Script" path="res://scripts/components/Enemy.gd" id="1_rqbiv"]
 [ext_resource type="Texture2D" uid="uid://cuakcapual0es" path="res://assets/sprites/enemy/Knight/_Run.png" id="2_oboed"]
 [ext_resource type="Texture2D" uid="uid://c31xfl3w6hoja" path="res://assets/sprites/enemy/Knight/_Attack.png" id="3_08il8"]
 [ext_resource type="PackedScene" uid="uid://cddx2vmkrl5b1" path="res://scenes/health_comp.tscn" id="5_r2ca0"]
+[ext_resource type="Script" path="res://scripts/components/HitBox.gd" id="5_xosy0"]
 [ext_resource type="PackedScene" uid="uid://c0tayra75yyel" path="res://scenes/hitbox_comp.tscn" id="6_1ycur"]
 [ext_resource type="Script" path="res://scripts/components/HurtBox.gd" id="7_b1sy5"]
 
@@ -70,10 +71,23 @@ tracks/4/keys = {
 "update": 1,
 "values": [Vector2i(0, 0)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../CharacterBody2D/EnemyHitBox/KnightSlash:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_pa6m5"]
 resource_name = "attack"
 length = 0.4
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -133,6 +147,18 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../CharacterBody2D/EnemyHitBox/KnightSlash:disabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
 }
 
 [sub_resource type="Animation" id="Animation_8swbi"]
@@ -248,7 +274,10 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vdgd1"]
-size = Vector2(25, 35)
+size = Vector2(20.9157, 38.863)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_emp8s"]
+size = Vector2(30.7156, 33.9524)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rj68m"]
 size = Vector2(21.0051, 38.1943)
@@ -267,13 +296,21 @@ root_node = NodePath("../Sprite2D")
 libraries = {
 "": SubResource("AnimationLibrary_k1lru")
 }
-autoplay = "idle"
+autoplay = "attack"
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 
-[node name="Hitbox" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(-3, 23)
+[node name="Collision" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-5.27896, 21.3736)
 shape = SubResource("RectangleShape2D_vdgd1")
+
+[node name="EnemyHitBox" type="Area2D" parent="CharacterBody2D"]
+script = ExtResource("5_xosy0")
+
+[node name="KnightSlash" type="CollisionShape2D" parent="CharacterBody2D/EnemyHitBox"]
+position = Vector2(40.1365, 22.6577)
+shape = SubResource("RectangleShape2D_emp8s")
+disabled = true
 
 [node name="HealthComp" parent="." instance=ExtResource("5_r2ca0")]
 
@@ -282,9 +319,9 @@ position = Vector2(-5.32368, 21.0392)
 shape = SubResource("RectangleShape2D_rj68m")
 disabled = true
 
-[node name="HitboxComp" parent="." instance=ExtResource("6_1ycur")]
+[node name="HurtBox" parent="." instance=ExtResource("6_1ycur")]
 script = ExtResource("7_b1sy5")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="HitboxComp"]
+[node name="HurtArea" type="CollisionShape2D" parent="HurtBox"]
 position = Vector2(-5.1789, 20.7156)
 shape = SubResource("RectangleShape2D_rj68m")

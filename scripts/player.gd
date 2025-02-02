@@ -3,8 +3,8 @@ extends CharacterBody2D
 # Constants
 const SPEED = 300.0  # Movement speed of the character
 const JUMP_VELOCITY = -420.0  # Velocity applied when the character jumps
-const KNOCKBACK_SPEED = 200.0  # Speed of the knockback effect when hurt
-const INVINCIBILITY_DURATION = 0.5  # Duration of invincibility after taking damage
+const KNOCKBACK_SPEED = 100.0  # Speed of the knockback effect when hurt
+const INVINCIBILITY_DURATION = 1  # Duration of invincibility after taking damage
 
 # Animation states
 # Enum used to define various animation states for the character
@@ -12,8 +12,8 @@ enum AnimationState { IDLE, RUN, JUMP, SIT, SIT_IDLE, ATTACK, HURT, DEATH }
 
 # Node references
 @onready var animation_player: AnimationPlayer = $AnimationPlayer  # Controls animations
-@onready var collision_shape: CollisionShape2D = $CollisionShape2D  # Collision shape for the character
-@onready var slash_area = $CaelaSprite/Area2D/SlashArea  # Slash attack detection area
+@onready var collision_shape: CollisionShape2D = $Collision  # Collision shape for the character
+@onready var slash_area = $CaelaSprite/PlayerHitDetect/SlashArea  # Slash attack detection area
 
 # State variables
 var is_attacking = false  # Indicates if the character is currently attacking
@@ -23,8 +23,7 @@ var is_dead = false  # Indicates if the character is dead
 var sit_idle_transitioned = false  # Tracks whether the sit-idle animation has started
 var is_invincible = false  # Indicates if the character is invincible after taking damage
 var invincibility_timer = 0.0  # Timer for tracking invincibility duration
-var facing_direction = 1  # Tracks the last facing direction, 1 for right, -1 for left
-
+var facing_direction = 1 # Tracks the last facing direction, 1 for right, -1 for left
 
 # Health
 var max_health = 5  # Maximum health of the character
@@ -149,34 +148,34 @@ func trigger_death() -> void:
 	is_dead = true
 	velocity = Vector2.ZERO  # Stop movement
 	play_animation("death")
+	get_tree().reload_current_scene()
 
 # Handles taking damage and applying knockback
-func take_damage(damage: int, knockback_direction: Vector2) -> void:
+func take_damage(damage: int, knockback_direction) -> void:
 	if is_invincible:
 		return
-
-	current_health -= damage
 
 	if current_health <= 0:
 		trigger_death()
 		return
-
 	trigger_hurt(knockback_direction)
+	print("take damage")
+	
 
 # Triggers the knockback effect, hurt animation, and invincibility frames
 func trigger_hurt(knockback_direction: Vector2) -> void:
+	if is_hurt:
+		return  # Prevent re-triggering during the hurt state
 	is_hurt = true
 	is_invincible = true
 	# Apply knockback
 	velocity = knockback_direction.normalized() * KNOCKBACK_SPEED
 	play_animation("hurt")
-	collision_shape.disabled = true
-	# Handle invincibility duration and re-enable collision
-	await get_tree().create_timer(0.3).timeout  # Adjust knockback duration as needed
-	collision_shape.disabled = false
-	velocity = Vector2.ZERO  # Stop knockback after the timer
+	# Knockback duration
+	await get_tree().create_timer(0.5).timeout
+	velocity = Vector2.ZERO
 	play_animation("idle")
-	# Continue invincibility timer after collision reset
+	# Allow further hits after invincibility duration
 	await get_tree().create_timer(INVINCIBILITY_DURATION).timeout
 	is_hurt = false
 	is_invincible = false
@@ -205,3 +204,4 @@ func _on_animation_player_animation_finished(anim_name: String) -> void:
 			is_attacking = false
 		"hurt":
 			is_hurt = false
+			

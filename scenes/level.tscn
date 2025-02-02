@@ -180,7 +180,8 @@ texture = ExtResource("1_ns2hl")
 12:9/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_bfojq"]
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 7
+physics_layer_0/collision_mask = 7
 sources/0 = SubResource("TileSetAtlasSource_qjq6a")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fkm0f"]
@@ -330,7 +331,7 @@ texture = ExtResource("1_ns2hl")
 [sub_resource type="TileSet" id="TileSet_hy7pq"]
 sources/0 = SubResource("TileSetAtlasSource_fkm0f")
 
-[node name="Node2D" type="Node2D"]
+[node name="TileMap" type="TileMapLayer"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 z_index = 2
