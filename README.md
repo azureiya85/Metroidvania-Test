@@ -4,7 +4,9 @@
 
 Welcome to **Project Vampire**, a Metroidvania game heavily inspired by the Castlevania series, particularly **Symphony of the Night**. The game focuses on exploration, platforming, and light RPG elements.
 
-Currently, the project is in its earliest stages of development.
+Currently, the project is in its earliest stages of development. 
+
+**All assets here are just placeholder in this current stage of development. Please check the credit below for the link to original creators**
 
 ---
 
@@ -39,7 +41,7 @@ Confused yet determined, she must once again navigate through the brand new worl
 - **Character & Story:**
   - Develop and polish the game's narrative and protagonist arc
   - Enhance character animations and interactions
-  - Replace most ifn not all premade assets with own made, custom assets.
+  - Replace most if not all premade assets with own made, custom assets.
 - **User Interface:**
   - Design and implement HUD elements (health, mana, inventory)
   - Pause menu and game settings
