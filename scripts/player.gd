@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
 # Constants
-const SPEED = 300.0  # Movement speed of the character
-const JUMP_VELOCITY = -420.0  # Velocity applied when the character jumps
-const KNOCKBACK_SPEED = 100.0  # Speed of the knockback effect when hurt
-const INVINCIBILITY_DURATION = 1  # Duration of invincibility after taking damage
+const SPEED : float = 300.0  # Movement speed of the character
+const JUMP_VELOCITY : float = -420.0  # Velocity applied when the character jumps
+const KNOCKBACK_SPEED : float = 100.0  # Speed of the knockback effect when hurt
+const INVINCIBILITY_DURATION : float = 1.0  # Duration of invincibility after taking damage
 
 # Animation states
 # Enum used to define various animation states for the character
@@ -13,21 +13,21 @@ enum AnimationState { IDLE, RUN, JUMP, SIT, SIT_IDLE, ATTACK, HURT, DEATH }
 # Node references
 @onready var animation_player: AnimationPlayer = $AnimationPlayer  # Controls animations
 @onready var collision_shape: CollisionShape2D = $Collision  # Collision shape for the character
-@onready var slash_area = $CaelaSprite/PlayerHitDetect/SlashArea  # Slash attack detection area
+@onready var slash_area : CollisionShape2D = $CaelaSprite/PlayerHitDetect/SlashArea  # Slash attack detection area
 
 # State variables
-var is_attacking = false  # Indicates if the character is currently attacking
-var is_sitting = false  # Indicates if the character is sitting
-var is_hurt = false  # Indicates if the character is hurt
-var is_dead = false  # Indicates if the character is dead
-var sit_idle_transitioned = false  # Tracks whether the sit-idle animation has started
-var is_invincible = false  # Indicates if the character is invincible after taking damage
-var invincibility_timer = 0.0  # Timer for tracking invincibility duration
-var facing_direction = 1 # Tracks the last facing direction, 1 for right, -1 for left
+var is_attacking : bool = false  # Indicates if the character is currently attacking
+var is_sitting : bool = false  # Indicates if the character is sitting
+var is_hurt : bool= false  # Indicates if the character is hurt
+var is_dead : bool = false  # Indicates if the character is dead
+var sit_idle_transitioned : bool = false  # Tracks whether the sit-idle animation has started
+var is_invincible : bool = false  # Indicates if the character is invincible after taking damage
+var invincibility_timer : float = 0.0  # Timer for tracking invincibility duration
+var facing_direction : int = 1 # Tracks the last facing direction, 1 for right, -1 for left
 
 # Health
-var max_health = 5  # Maximum health of the character
-var current_health = max_health  # Current health of the character
+var max_health : int = 5  # Maximum health of the character
+var current_health : int = max_health  # Current health of the character
 
 # Handles physics updates for the character
 func _physics_process(delta: float) -> void:
@@ -65,7 +65,7 @@ func handle_input() -> void:
 
 # Handles character movement
 func handle_movement() -> void:
-	var direction = Input.get_axis("move_left", "move_right")
+	var direction : float = Input.get_axis("move_left", "move_right")
 	if direction != 0 and not is_sitting:
 		velocity.x = direction * SPEED  # Set horizontal velocity
 		update_slash_area_direction(direction)  # Update slash attack direction
@@ -151,7 +151,7 @@ func trigger_death() -> void:
 	get_tree().reload_current_scene()
 
 # Handles taking damage and applying knockback
-func take_damage(damage: int, knockback_direction) -> void:
+func take_damage(damage: int, knockback_direction : Vector2) -> void:
 	if is_invincible:
 		return
 

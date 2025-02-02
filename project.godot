@@ -36,6 +36,11 @@ Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
 MetSys="*res://addons/MetroidvaniaSystem/Nodes/Singleton.tscn"
 SceneManager="*res://addons/scene_manager/SceneManager.tscn"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+gdscript/warnings/inferred_declaration=1
+
 [dialogic]
 
 directories/dch_directory={}

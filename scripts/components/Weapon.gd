@@ -1,7 +1,7 @@
 extends Node2D
 
-var attack_damage = 10
-var knockback_force = 100
+var attack_damage : int = 10
+var knockback_force : int = 100
 
 func _on_hitbox_area_entered(area):
 	if area is HitBox:
