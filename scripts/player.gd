@@ -204,4 +204,3 @@ func _on_animation_player_animation_finished(anim_name: String) -> void:
 			is_attacking = false
 		"hurt":
 			is_hurt = false
-			
