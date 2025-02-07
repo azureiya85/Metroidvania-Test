@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://c0tayra75yyel" path="res://scenes/hitbox_comp.tscn" id="6_1ycur"]
 [ext_resource type="Script" path="res://scripts/components/HurtBox.gd" id="7_b1sy5"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_emp8s"]
+size = Vector2(30.7156, 33.9524)
+
 [sub_resource type="Animation" id="Animation_ax3sd"]
 length = 0.001
 tracks/0/type = "value"
@@ -74,7 +77,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../CharacterBody2D/EnemyHitBox/KnightSlash:disabled")
+tracks/5/path = NodePath("EnemyHitBox/KnightSlash:disabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -151,7 +154,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("../CharacterBody2D/EnemyHitBox/KnightSlash:disabled")
+tracks/5/path = NodePath("EnemyHitBox/KnightSlash:disabled")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -276,9 +279,6 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vdgd1"]
 size = Vector2(20.9157, 38.863)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_emp8s"]
-size = Vector2(30.7156, 33.9524)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rj68m"]
 size = Vector2(21.0051, 38.1943)
 
@@ -290,6 +290,15 @@ script = ExtResource("1_rqbiv")
 position = Vector2(-1, 0)
 texture = ExtResource("1_e0aal")
 hframes = 10
+
+[node name="EnemyHitBox" type="Area2D" parent="Sprite2D"]
+position = Vector2(1, 0)
+script = ExtResource("5_xosy0")
+
+[node name="KnightSlash" type="CollisionShape2D" parent="Sprite2D/EnemyHitBox"]
+position = Vector2(40.1365, 22.6577)
+shape = SubResource("RectangleShape2D_emp8s")
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")
@@ -304,13 +313,12 @@ autoplay = "attack"
 position = Vector2(-5.27896, 21.3736)
 shape = SubResource("RectangleShape2D_vdgd1")
 
-[node name="EnemyHitBox" type="Area2D" parent="CharacterBody2D"]
-script = ExtResource("5_xosy0")
+[node name="HurtBox" parent="." instance=ExtResource("6_1ycur")]
+script = ExtResource("7_b1sy5")
 
-[node name="KnightSlash" type="CollisionShape2D" parent="CharacterBody2D/EnemyHitBox"]
-position = Vector2(40.1365, 22.6577)
-shape = SubResource("RectangleShape2D_emp8s")
-disabled = true
+[node name="HurtArea" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(-5.1789, 20.7156)
+shape = SubResource("RectangleShape2D_rj68m")
 
 [node name="HealthComp" parent="." instance=ExtResource("5_r2ca0")]
 
@@ -319,9 +327,4 @@ position = Vector2(-5.32368, 21.0392)
 shape = SubResource("RectangleShape2D_rj68m")
 disabled = true
 
-[node name="HurtBox" parent="." instance=ExtResource("6_1ycur")]
-script = ExtResource("7_b1sy5")
-
-[node name="HurtArea" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(-5.1789, 20.7156)
-shape = SubResource("RectangleShape2D_rj68m")
+[connection signal="take_damage" from="HurtBox" to="." method="_on_hurt_box_take_damage"]

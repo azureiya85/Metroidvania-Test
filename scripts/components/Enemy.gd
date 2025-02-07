@@ -1,15 +1,12 @@
 extends CharacterBody2D
 
-
-func take_damage(damage : int, knockback_direction : Vector2) -> void:
-	print("take damage")
-	health = max(0, health - damage)
-	if health < 0:
-		queue_free()
-	pass
-	
-var health : int
-var max_health : int = 10
+@onready var hurtbox : HurtBox = $HurtBox
+#@export var knockback_resistance: float = 1.0  # Adjust as needed
 
 func _ready() -> void:
-	health = max_health
+	hurtbox.take_damage.connect(_on_hurtbox_take_damage)
+
+func _on_hurtbox_take_damage(damage: int, knockback_vector: Vector2):
+	# Apply knockback effect
+	velocity = knockback_vector #/ knockback_resistance
+	move_and_slide()

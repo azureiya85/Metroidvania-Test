@@ -14,6 +14,8 @@ enum AnimationState { IDLE, RUN, JUMP, SIT, SIT_IDLE, ATTACK, HURT, DEATH }
 @onready var animation_player: AnimationPlayer = $AnimationPlayer  # Controls animations
 @onready var collision_shape: CollisionShape2D = $Collision  # Collision shape for the character
 @onready var slash_area : CollisionShape2D = $CaelaSprite/PlayerHitDetect/SlashArea  # Slash attack detection area
+@onready var hurt_box_component: HurtBox = $"HurtBox Component"
+
 
 # State variables
 var is_attacking : bool = false  # Indicates if the character is currently attacking
