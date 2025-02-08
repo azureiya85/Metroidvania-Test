@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b3lq8nsg4lpyy"]
+[gd_scene load_steps=27 format=3 uid="uid://b3lq8nsg4lpyy"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_aqubb"]
 [ext_resource type="Texture2D" uid="uid://cklq5gri8hhnf" path="res://assets/sprites/player/FASE 1 IDLE SIMPLY.png" id="1_lc83l"]
@@ -10,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://c6gergomynppa" path="res://assets/sprites/player/FASE 1 SITTING.png" id="7_j3iq5"]
 [ext_resource type="Texture2D" uid="uid://dd6j0yet57efq" path="res://assets/sprites/player/FASE 1 SITTING IDLE.png" id="8_t0vsk"]
 [ext_resource type="Script" path="res://scripts/components/HitBox.gd" id="10_c7ji0"]
+[ext_resource type="Script" path="res://scripts/components/Attack.gd" id="11_bq0rw"]
 [ext_resource type="PackedScene" uid="uid://g4h37bf38k2c" path="res://scenes/hurt_box_component.tscn" id="11_rtm72"]
+[ext_resource type="PackedScene" uid="uid://cddx2vmkrl5b1" path="res://scenes/health_comp.tscn" id="13_c34j4"]
 
 [sub_resource type="Animation" id="Animation_eh4xw"]
 length = 0.001
@@ -599,6 +601,12 @@ _data = {
 "sit-idle": SubResource("Animation_fru1k")
 }
 
+[sub_resource type="Resource" id="Resource_12plo"]
+script = ExtResource("11_bq0rw")
+attack_damage = 10.0
+knockback_force = 100.0
+attack_position = Vector2(0, 0)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xudt3"]
 size = Vector2(29.5, 32)
 
@@ -620,8 +628,10 @@ position = Vector2(634, 231)
 texture = ExtResource("1_lc83l")
 hframes = 4
 
-[node name="PlayerHitDetect" type="Area2D" parent="CaelaSprite"]
+[node name="PlayerHitDetect" type="Area2D" parent="CaelaSprite" node_paths=PackedStringArray("health_component")]
 script = ExtResource("10_c7ji0")
+attack = SubResource("Resource_12plo")
+health_component = NodePath("../../HealthComp")
 
 [node name="SlashArea" type="CollisionShape2D" parent="CaelaSprite/PlayerHitDetect"]
 z_index = 5
@@ -637,5 +647,8 @@ shape = SubResource("RectangleShape2D_r16fs")
 [node name="Collision2" type="CollisionShape2D" parent="HurtBox Component"]
 position = Vector2(630, 241)
 shape = SubResource("RectangleShape2D_r16fs")
+
+[node name="HealthComp" parent="." instance=ExtResource("13_c34j4")]
+max_health = 40
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

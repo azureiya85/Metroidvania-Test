@@ -1,10 +1,8 @@
-class_name HitBox
 extends Area2D
+class_name HitBox
 
-@export var Attack: Resource
-
-func get_damage(attack: Attack) -> int:
-	return attack.attack_damage
+@export var attack: Attack
+@export var health_component: HealthComp
 
 func get_knockback_force(attack: Attack) -> float:
 	return attack.knockback_force

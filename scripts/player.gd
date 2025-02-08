@@ -15,6 +15,8 @@ enum AnimationState { IDLE, RUN, JUMP, SIT, SIT_IDLE, ATTACK, HURT, DEATH }
 @onready var collision_shape: CollisionShape2D = $Collision  # Collision shape for the character
 @onready var slash_area : CollisionShape2D = $CaelaSprite/PlayerHitDetect/SlashArea  # Slash attack detection area
 @onready var hurt_box_component: HurtBox = $"HurtBox Component"
+@onready var health_comp: HealthComp = $HealthComp
+
 
 
 # State variables
@@ -27,9 +29,12 @@ var is_invincible : bool = false  # Indicates if the character is invincible aft
 var invincibility_timer : float = 0.0  # Timer for tracking invincibility duration
 var facing_direction : int = 1 # Tracks the last facing direction, 1 for right, -1 for left
 
-# Health
-var max_health : int = 5  # Maximum health of the character
-var current_health : int = max_health  # Current health of the character
+# --- Initialization ---
+func _ready() -> void:
+	# Connect the HurtBox signal so that when a hit occurs, we handle it here.
+	hurt_box_component.take_damage.connect(_on_hurt_box_take_damage)
+	# Optionally, connect HealthComp's death signal to trigger death.
+	health_comp.died.connect(trigger_death)
 
 # Handles physics updates for the character
 func _physics_process(delta: float) -> void:
@@ -139,52 +144,71 @@ func transition_to_sit_idle() -> void:
 		play_animation("sit-idle")
 
 # --- Combat Handling ---
-# Starts the attack sequence
+
+# This function starts the attack sequence.
 func start_attack() -> void:
-	velocity.x = 0  # Stop horizontal movement during attack
+	velocity.x = 0   # Stop horizontal movement during attack.
 	is_attacking = true
 	play_animation("attack")
-
-# Triggers the death state and animation
-func trigger_death() -> void:
-	is_dead = true
-	velocity = Vector2.ZERO  # Stop movement
-	play_animation("death")
-	get_tree().reload_current_scene()
-
-# Handles taking damage and applying knockback
-func take_damage(damage: int, knockback_direction : Vector2) -> void:
+	# (Optionally, enable your player's attack hitbox here.)
+	
+# This function is called by the HurtBox when the player is hit.
+func _on_hurt_box_take_damage(damage: int, knockback_vector: Vector2) -> void:
+	# If the player is invincible, ignore the hit.
 	if is_invincible:
 		return
+	# (The HealthComp already subtracted damage.)
+	# Now trigger the knockback and hurt animation.
+	trigger_hurt(knockback_vector)
+	print("Player took ", damage, " damage.")
 
-	if current_health <= 0:
-		trigger_death()
-		return
-	trigger_hurt(knockback_direction)
-	print("take damage")
-	
+# This function handles the death state.
+func trigger_death() -> void:
+	is_dead = true
+	velocity = Vector2.ZERO     # Stop movement.
+	play_animation("death")
+	# Use call_deferred() so that scene reloading happens outside the physics callback.
+	get_tree().call_deferred("reload_current_scene")
 
-# Triggers the knockback effect, hurt animation, and invincibility frames
+# This function triggers knockback and the hurt animation.
 func trigger_hurt(knockback_direction: Vector2) -> void:
 	if is_hurt:
-		return  # Prevent re-triggering during the hurt state
+		return  # Prevent re-triggering if already hurt.
+		
 	is_hurt = true
 	is_invincible = true
-	# Apply knockback
+	# Apply knockback by setting the velocity.
 	velocity = knockback_direction.normalized() * KNOCKBACK_SPEED
 	play_animation("hurt")
-	# Knockback duration
+	
+	# Store a reference to the SceneTree.
+	var tree : SceneTree = get_tree()
+	# Wait for the knockback/hurt duration.
+	if tree:
+		await tree.create_timer(0.5).timeout
+	
+	# If the node has been removed (e.g. scene reloaded), abort further processing.
+	if not is_inside_tree():
+		return
+	
+	# Wait for the knockback/hurt animation to finish (0.5 seconds here).
 	await get_tree().create_timer(0.5).timeout
 	velocity = Vector2.ZERO
 	play_animation("idle")
-	# Allow further hits after invincibility duration
-	await get_tree().create_timer(INVINCIBILITY_DURATION).timeout
+	
+	# Wait for the invincibility duration.
+	if tree:
+		await tree.create_timer(INVINCIBILITY_DURATION).timeout
+	
+	# Again, if the node is no longer in the scene tree, abort.
+	if not is_inside_tree():
+		return
+	
+	# End the hurt state.
 	is_hurt = false
 	is_invincible = false
 
 # Heals the character by a specified amount
-func heal(amount: int) -> void:
-	current_health = min(max_health, current_health + amount)
 
 # Updates the invincibility timer and disables invincibility if time is up
 func update_invincibility_timer(delta: float) -> void:
