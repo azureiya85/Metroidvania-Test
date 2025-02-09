@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name EnemyEx
+class_name Enemy
 
 @onready var hurtbox: HurtBox = $HurtBox
 @onready var health_comp: HealthComp = $HealthComp
@@ -76,5 +76,3 @@ func _on_death() -> void:
 	current_state = EnemyState.DEAD
 	velocity = Vector2.ZERO
 	animation_player.play("death")
-	# Delay removal if you want the death animation to complete.
-	get_tree().call_deferred("reload_current_scene")

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1bt25a2wfctl"]
-
-[ext_resource type="Script" path="res://HealthLabel.gd" id="1_arlf4"]
-
-[node name="Health" type="Label"]
-script = ExtResource("1_arlf4")

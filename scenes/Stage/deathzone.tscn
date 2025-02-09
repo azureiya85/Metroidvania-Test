@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtmfrufgvm02m"]
 
-[ext_resource type="Script" path="res://scripts/components/Deathzon.gd" id="1_hkqqq"]
+[ext_resource type="Script" path="res://scripts/Stage/Deathzon.gd" id="1_jpx05"]
 
 [node name="Deathzone" type="Area2D"]
-script = ExtResource("1_hkqqq")
+script = ExtResource("1_jpx05")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5

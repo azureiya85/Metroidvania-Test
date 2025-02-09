@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3 uid="uid://c6ljwnhj35rs8"]
+
+[ext_resource type="Script" path="res://scripts/Core/Attack.gd" id="1_a4i6x"]
+
+[resource]
+script = ExtResource("1_a4i6x")
+attack_damage = 10.0
+knockback_force = 100.0
+attack_position = Vector2(0, 0)

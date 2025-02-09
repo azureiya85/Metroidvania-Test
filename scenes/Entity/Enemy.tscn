@@ -1,20 +1,14 @@
-[gd_scene load_steps=19 format=3 uid="uid://da7af7pqe1fya"]
+[gd_scene load_steps=18 format=3 uid="uid://da7af7pqe1fya"]
 
 [ext_resource type="Texture2D" uid="uid://bgj24usq7xa47" path="res://assets/sprites/enemy/Knight/_Idle.png" id="1_e0aal"]
-[ext_resource type="Script" path="res://scripts/components/Enemy.gd" id="1_rqbiv"]
+[ext_resource type="Script" path="res://scripts/Entity/Enemy/Enemy.gd" id="1_joj24"]
 [ext_resource type="Texture2D" uid="uid://cuakcapual0es" path="res://assets/sprites/enemy/Knight/_Run.png" id="2_oboed"]
 [ext_resource type="Texture2D" uid="uid://c31xfl3w6hoja" path="res://assets/sprites/enemy/Knight/_Attack.png" id="3_08il8"]
-[ext_resource type="Script" path="res://scripts/components/Attack.gd" id="4_4v417"]
-[ext_resource type="PackedScene" uid="uid://cddx2vmkrl5b1" path="res://scenes/health_comp.tscn" id="5_r2ca0"]
-[ext_resource type="Script" path="res://scripts/components/HitBox.gd" id="5_xosy0"]
-[ext_resource type="PackedScene" uid="uid://c0tayra75yyel" path="res://scenes/hitbox_comp.tscn" id="6_1ycur"]
-[ext_resource type="Script" path="res://scripts/components/HurtBox.gd" id="7_b1sy5"]
-
-[sub_resource type="Resource" id="Resource_4v2bd"]
-script = ExtResource("4_4v417")
-attack_damage = 10.0
-knockback_force = 100.0
-attack_position = Vector2(0, 0)
+[ext_resource type="Resource" uid="uid://c6ljwnhj35rs8" path="res://resources/Entity/default_attack.tres" id="4_56yvl"]
+[ext_resource type="PackedScene" uid="uid://cddx2vmkrl5b1" path="res://scenes/Core/health_comp.tscn" id="5_r2ca0"]
+[ext_resource type="Script" path="res://scripts/Core/HitBox.gd" id="5_xosy0"]
+[ext_resource type="PackedScene" uid="uid://c0tayra75yyel" path="res://scenes/Core/hitbox_comp.tscn" id="6_1ycur"]
+[ext_resource type="Script" path="res://scripts/Core/HurtBox.gd" id="7_b1sy5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_emp8s"]
 size = Vector2(30.7156, 33.9524)
@@ -291,7 +285,7 @@ size = Vector2(21.0051, 38.1943)
 
 [node name="Enemy" type="CharacterBody2D"]
 scale = Vector2(1.54473, 1.54473)
-script = ExtResource("1_rqbiv")
+script = ExtResource("1_joj24")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-1, 0)
@@ -301,7 +295,7 @@ hframes = 10
 [node name="EnemyHitBox" type="Area2D" parent="Sprite2D" node_paths=PackedStringArray("health_component")]
 position = Vector2(1, 0)
 script = ExtResource("5_xosy0")
-attack = SubResource("Resource_4v2bd")
+attack = ExtResource("4_56yvl")
 health_component = NodePath("../../HealthComp")
 
 [node name="KnightSlash" type="CollisionShape2D" parent="Sprite2D/EnemyHitBox"]

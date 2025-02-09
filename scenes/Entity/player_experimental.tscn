@@ -1,18 +1,21 @@
-[gd_scene load_steps=27 format=3 uid="uid://b3lq8nsg4lpyy"]
+[gd_scene load_steps=30 format=3 uid="uid://cg40ypr3inveg"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_aqubb"]
-[ext_resource type="Texture2D" uid="uid://cklq5gri8hhnf" path="res://assets/sprites/player/FASE 1 IDLE SIMPLY.png" id="1_lc83l"]
-[ext_resource type="Texture2D" uid="uid://7tiv2605g7qu" path="res://assets/sprites/player/FASE 1 RUN.png" id="2_np218"]
-[ext_resource type="Texture2D" uid="uid://dsfcetqxwdfi3" path="res://assets/sprites/player/FASE 1 ATTACK 1.png" id="3_a2efe"]
-[ext_resource type="Texture2D" uid="uid://b76urnnmxjtik" path="res://assets/sprites/player/FASE 1 JUMP.png" id="4_6uipt"]
-[ext_resource type="Texture2D" uid="uid://b6dr70gc6l7w2" path="res://assets/sprites/player/FASE 1 HURT SIMPLY.png" id="5_6exf0"]
-[ext_resource type="Texture2D" uid="uid://brqfaa73ls28u" path="res://assets/sprites/player/FASE 1 DEATH.png" id="6_t8g47"]
-[ext_resource type="Texture2D" uid="uid://c6gergomynppa" path="res://assets/sprites/player/FASE 1 SITTING.png" id="7_j3iq5"]
-[ext_resource type="Texture2D" uid="uid://dd6j0yet57efq" path="res://assets/sprites/player/FASE 1 SITTING IDLE.png" id="8_t0vsk"]
-[ext_resource type="Script" path="res://scripts/components/HitBox.gd" id="10_c7ji0"]
-[ext_resource type="Script" path="res://scripts/components/Attack.gd" id="11_bq0rw"]
-[ext_resource type="PackedScene" uid="uid://g4h37bf38k2c" path="res://scenes/hurt_box_component.tscn" id="11_rtm72"]
-[ext_resource type="PackedScene" uid="uid://cddx2vmkrl5b1" path="res://scenes/health_comp.tscn" id="13_c34j4"]
+[ext_resource type="Script" path="res://scripts/Entity/Player/player_main.gd" id="1_i5ku6"]
+[ext_resource type="Script" path="res://scripts/Entity/Player/player_combat.gd" id="2_h78a1"]
+[ext_resource type="Texture2D" uid="uid://cklq5gri8hhnf" path="res://assets/sprites/player/FASE 1 IDLE SIMPLY.png" id="2_l6uvl"]
+[ext_resource type="Script" path="res://scripts/Entity/Player/player_movement.gd" id="3_2ojcr"]
+[ext_resource type="Texture2D" uid="uid://dsfcetqxwdfi3" path="res://assets/sprites/player/FASE 1 ATTACK 1.png" id="3_5k5px"]
+[ext_resource type="Script" path="res://scripts/Entity/Player/okater_anim.gd" id="4_d561x"]
+[ext_resource type="Texture2D" uid="uid://brqfaa73ls28u" path="res://assets/sprites/player/FASE 1 DEATH.png" id="4_eg6gm"]
+[ext_resource type="Texture2D" uid="uid://b6dr70gc6l7w2" path="res://assets/sprites/player/FASE 1 HURT SIMPLY.png" id="5_nlj7p"]
+[ext_resource type="Texture2D" uid="uid://b76urnnmxjtik" path="res://assets/sprites/player/FASE 1 JUMP.png" id="6_hwba8"]
+[ext_resource type="Texture2D" uid="uid://7tiv2605g7qu" path="res://assets/sprites/player/FASE 1 RUN.png" id="7_lfuyi"]
+[ext_resource type="Texture2D" uid="uid://c6gergomynppa" path="res://assets/sprites/player/FASE 1 SITTING.png" id="8_7rds4"]
+[ext_resource type="Texture2D" uid="uid://dd6j0yet57efq" path="res://assets/sprites/player/FASE 1 SITTING IDLE.png" id="9_mhsor"]
+[ext_resource type="Script" path="res://scripts/Core/HitBox.gd" id="10_mlkvb"]
+[ext_resource type="Script" path="res://scripts/Core/Attack.gd" id="11_bi4sf"]
+[ext_resource type="PackedScene" uid="uid://g4h37bf38k2c" path="res://scenes/Core/hurt_box_component.tscn" id="12_i1x20"]
+[ext_resource type="PackedScene" uid="uid://cddx2vmkrl5b1" path="res://scenes/Core/health_comp.tscn" id="13_1113a"]
 
 [sub_resource type="Animation" id="Animation_eh4xw"]
 length = 0.001
@@ -26,7 +29,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_lc83l")]
+"values": [ExtResource("2_l6uvl")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -114,7 +117,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("3_a2efe")]
+"values": [ExtResource("3_5k5px")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -178,7 +181,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("6_t8g47")]
+"values": [ExtResource("4_eg6gm")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -242,7 +245,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("5_6exf0")]
+"values": [ExtResource("5_nlj7p")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -294,7 +297,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_lc83l")]
+"values": [ExtResource("2_l6uvl")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -357,7 +360,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("4_6uipt")]
+"values": [ExtResource("6_hwba8")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -409,7 +412,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("2_np218")]
+"values": [ExtResource("7_lfuyi")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -473,7 +476,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("7_j3iq5")]
+"values": [ExtResource("8_7rds4")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -537,7 +540,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("8_t0vsk")]
+"values": [ExtResource("9_mhsor")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -602,7 +605,7 @@ _data = {
 }
 
 [sub_resource type="Resource" id="Resource_12plo"]
-script = ExtResource("11_bq0rw")
+script = ExtResource("11_bi4sf")
 attack_damage = 10.0
 knockback_force = 100.0
 attack_position = Vector2(0, 0)
@@ -614,10 +617,19 @@ size = Vector2(29.5, 32)
 size = Vector2(22, 83.5)
 
 [node name="Caela" type="CharacterBody2D"]
-script = ExtResource("1_aqubb")
+script = ExtResource("1_i5ku6")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../CaelaSprite")
+[node name="Combat" type="Node" parent="."]
+script = ExtResource("2_h78a1")
+
+[node name="Movement" type="Node" parent="."]
+script = ExtResource("3_2ojcr")
+
+[node name="Animation" type="Node" parent="."]
+script = ExtResource("4_d561x")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Animation"]
+root_node = NodePath("../../CaelaSprite")
 libraries = {
 "": SubResource("AnimationLibrary_2qrqf")
 }
@@ -625,11 +637,11 @@ autoplay = "idle"
 
 [node name="CaelaSprite" type="Sprite2D" parent="."]
 position = Vector2(634, 231)
-texture = ExtResource("1_lc83l")
+texture = ExtResource("2_l6uvl")
 hframes = 4
 
 [node name="PlayerHitDetect" type="Area2D" parent="CaelaSprite" node_paths=PackedStringArray("health_component")]
-script = ExtResource("10_c7ji0")
+script = ExtResource("10_mlkvb")
 attack = SubResource("Resource_12plo")
 health_component = NodePath("../../HealthComp")
 
@@ -642,13 +654,11 @@ shape = SubResource("RectangleShape2D_xudt3")
 position = Vector2(630, 241)
 shape = SubResource("RectangleShape2D_r16fs")
 
-[node name="HurtBox Component" parent="." instance=ExtResource("11_rtm72")]
+[node name="HurtBox Component" parent="." instance=ExtResource("12_i1x20")]
 
 [node name="Collision2" type="CollisionShape2D" parent="HurtBox Component"]
 position = Vector2(630, 241)
 shape = SubResource("RectangleShape2D_r16fs")
 
-[node name="HealthComp" parent="." instance=ExtResource("13_c34j4")]
+[node name="HealthComp" parent="." instance=ExtResource("13_1113a")]
 max_health = 40
-
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
