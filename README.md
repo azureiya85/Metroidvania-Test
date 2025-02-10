@@ -1,8 +1,8 @@
-# Project Vampire
+# Project Amethyst
 
 ## Overview
 
-Welcome to **Project Vampire**, a Metroidvania game heavily inspired by the Castlevania series, particularly **Symphony of the Night**. The game focuses on exploration, platforming, and light RPG elements.
+Welcome to **Project Amethyst (Archives of the Amethyst Moon)**, a Metroidvania game heavily inspired by the Castlevania series, particularly **Symphony of the Night**. The game focuses on exploration, platforming, and light RPG elements.
 
 Currently, the project is in its earliest stages of development. 
 
@@ -12,7 +12,7 @@ Currently, the project is in its earliest stages of development.
 
 ## Story Premise
 
-The year is 942 AE, Vakryanovod, a rural town in the edge of Lunaveira Empire. You play as Mikaela "Kayla" Violetta Yurievna; "the last known vampire". Bound by chains forged with betrayal, she is buried and sealed for eternity --or so they thought.
+The year is 942 AE, Vakryanovod, a rural town in the edge of Lunaveira Empire. You play as Mikaela "Kayla" Violetta Liliovyna; "the last known vampire". Bound by chains forged with betrayal, she is buried and sealed for eternity --or so they thought.
 
 For 800 years she was put into slumber, awakened only by the growing rust of the chains and the decaying woods. She breaks free of the confinement, and waken up in a world vastly different from the one she once knew. Clockwork automatons roams the street, the hiss of machinary fills the alleyway, firearms crackle where sword and shield once clashed. And to top it off, the once-feared vampires, her own kind --erased from history.
 
